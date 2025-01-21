@@ -1,27 +1,23 @@
-# Flathub
+# Build flatpak locally
 
-Flathub is the central place for building and hosting Flatpak builds.
-
-Using the Flathub repository
-----------------------------
-
-To install applications that are hosted on Flathub, use the following:
 ```
-flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub org.gnome.Recipes
+flatpak-node-generator npm ../package-lock.json -o generated-sources.json
+flatpak-builder build zone.dos.Browser.yaml --install-deps-from=flathub --force-clean --user --install
 ```
 
-To install applications from the beta branch, use the following:
+To enter build shell:
 ```
-flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak install flathub-beta org.godotengine.Godot
+flatpak-builder build --install-deps-from=flathub --force-clean --user --install zone.dos.Browser.yaml --build-shell=dos-browser
 ```
 
-For more information and more applications see https://flathub.org
+To validate:
+```
+flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest zone.dos.Browser.yaml
+flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream zone.dos.Browser.metainfo.xml
+```
 
-Contributing to Flathub
------------------------
+# Run flatpak
 
-For information on creating packages or reporting issues please see the [contributing page](/CONTRIBUTING.md).
-
-***Note:*** *this repository is not for reporting issues related to the flathub.org website itself or contributing to its development. For that, go to https://github.com/flathub-infra/website*
+```
+flatpak run zone.dos.browser
+```
